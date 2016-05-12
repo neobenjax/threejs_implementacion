@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Page Title</title>
+	<link rel="stylesheet" href="">
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+	<script src="js/three.min.js"></script>
+	<script src="js/TrackballControls.js"></script>
+	<script src="js/OBJLoader.js"></script>
+	<style>
+		body { margin: 0; overflow: hidden;}
+		canvas { width: 100%; height: 100% }
+
+		div#renderObjeto {
+			width: 800px;
+			height: 600px;
+			margin: 0 auto;
+		}
+
+		div#renderObjeto canvas {
+		    width: 100%;
+		    height: 100%;
+		}
+	</style>
+</head>
+<body>
+	<div id="renderObjeto"></div>
+
+
+	<script type="text/javascript">
+		// set the scene size
+		var WIDTH = $('#renderObjeto').width(),
+		  HEIGHT = $('#renderObjeto').height();
+
+		var $container;
+
+		var renderer,camera,scene,pointLight;
+
+		//Objetos
+		var sphere;
+
+
+
+		// set some camera attributes
+		var VIEW_ANGLE = 45,
+		  ASPECT = WIDTH / HEIGHT,
+		  NEAR = 0.1,
+		  FAR = 10000;
+
+
+
+		init();
+		animate();
+
+		function init() {
+			// get the DOM element to attach to
+			// - assume we've got jQuery to hand
+			$container = $('#renderObjeto');
+
+
+
+			// create a WebGL renderer, camera
+			// and a scene
+			renderer = new THREE.WebGLRenderer();
+
+			camera =
+			  new THREE.PerspectiveCamera(
+			    VIEW_ANGLE,
+			    ASPECT,
+			    NEAR,
+			    FAR);
+
+			scene = new THREE.Scene();
+
+			// add the camera to the scene
+			scene.add(camera);
+
+			// the camera starts at 0,0,0
+			// so pull it back
+			camera.position.z = 300;
+
+			// start the renderer
+			renderer.setSize(WIDTH, HEIGHT);
+
+			// attach the render-supplied DOM element
+			$container.append(renderer.domElement);
+
+			// create a point light
+			pointLight =
+			  new THREE.PointLight(0xFFFFFF);
+
+			// set its position
+			pointLight.position.x = 10;
+			pointLight.position.y = 50;
+			pointLight.position.z = 130;
+
+			// add to the scene
+			scene.add(pointLight);
+
+			/*ELEMENTOS 3D DE LA ESCENA*/
+			// set up the sphere vars
+			var radius = 50,
+			    segments = 32,
+			    rings = 32;
+
+			// create a new mesh with
+			// sphere geometry - we will cover
+			// the sphereMaterial next!
+			// create the sphere's material
+
+			sphere = new THREE.Mesh(
+
+			  new THREE.SphereGeometry(
+			    radius,
+			    segments,
+			    rings),
+
+			  sphereMaterial);
+
+			var sphereMaterial =
+			  new THREE.MeshLambertMaterial(
+			    {
+			    	color: 0xCC0000
+			    });
+
+			// sphere geometry
+			sphere.geometry.dynamic = true;
+			// changes to the vertices
+			sphere.geometry.verticesNeedUpdate = true;
+			// changes to the normals
+			sphere.geometry.normalsNeedUpdate = true;
+
+			// add the sphere to the scene
+			scene.add(sphere);
+
+
+			//renderer.setSize( window.innerWidth, window.innerHeight );
+
+		}
+
+		function animate() {
+
+	        requestAnimationFrame( animate );
+
+	        sphere.rotation.x += 0.01;
+	        sphere.rotation.y += 0.02;
+
+	        renderer.render( scene, camera );
+
+	    }
+
+
+
+	</script>
+</body>
+</html>
