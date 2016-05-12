@@ -26,11 +26,65 @@
 		    width: 100%;
 		    height: 100%;
 		}
+		.texturasContenedor {
+		    display: block;
+		    position: absolute;
+		    top: 20px;
+		    left: 20px;
+		}
+
+		.texturasContenedor ul.miniTexturas {
+		    list-style: none;
+		    padding: 0;
+		    margin: 0;
+		}
+
+		.texturasContenedor ul.miniTexturas > li {
+		    width: 50px;
+		    height: 50px;
+		    display: inline-block;
+		}
+
+		.texturasContenedor ul.miniTexturas > li > a {
+		    display: block;
+		    width: 100%;
+		    height: 100%;
+		}
+
+		.texturasContenedor ul.miniTexturas > li > a > img {
+		    width: 100%;
+		    height: 100%;
+		}
 	</style>
 </head>
 <body>
+	<div class="texturasContenedor">
+		<ul class="miniTexturas">
+			<li>
+				<a href="../textures/3473817.jpg">
+					<img src="../textures/3473817.jpg" alt="">
+				</a>
+			</li>
+			<li>
+				<a href="../textures/UV_Grid_Sm.jpg">
+					<img src="../textures/UV_Grid_Sm.jpg" alt="">
+				</a>
+			</li>
+			<li>
+				<a href="../textures/female_tank_top_layers.jpg">
+					<img src="../textures/female_tank_top_layers.jpg" alt="">
+				</a>
+			</li>
+			
+		</ul>
+	</div>
 	<div id="renderObjeto"></div>
 	<script type="text/javascript">
+		$(document).on('click','ul.miniTexturas > li > a',function(event){
+			event.preventDefault();
+			imagenTextura.src = $(this).attr('href');
+		});
+
 		var WIDTH = $('#renderObjeto').width(),
 		  	HEIGHT = $('#renderObjeto').height();
 		var VIEW_ANGLE = 65,
@@ -48,8 +102,15 @@
 		var windowHalfY = window.innerHeight / 2;
 		var cube, plane,loader;
 		var colladaObject;
+		var imagenTextura = new Image();
+      	var texture;
+      	
+
+
+
 
 		init();
+		animate();
 
 		function init() {
 			container = document.getElementById("renderObjeto");
@@ -83,6 +144,13 @@
 			// add to the scene
 			scene.add(pointLight);
 
+			//Textura
+			texture = new THREE.Texture();
+			texture.image = imagenTextura;
+			imagenTextura.src = "../textures/3473817.jpg";
+			imagenTextura.onload = function() {
+				texture.needsUpdate = true;
+			};
 			
 			
 			loader = new THREE.ColladaLoader();
@@ -91,6 +159,12 @@
 				collada.scene.traverse( function ( child ) {
 					if ( child instanceof THREE.SkinnedMesh ) {
 						//camera.lookAt( child.position );
+					}
+					if ( child instanceof THREE.Mesh ) {
+
+						child.material.map = texture;
+						console.log(child.material);
+
 					}
 				} );
 				scene.add( collada.scene );
@@ -116,7 +190,7 @@
 			document.addEventListener( 'touchmove', onDocumentTouchMove, false );
 
 			window.addEventListener( 'resize', onWindowResize, false );
-			animate();
+			
 		}
 		function onWindowResize() {
 			camera.aspect = window.innerWidth / window.innerHeight;
@@ -193,6 +267,8 @@
 			colladaObject.rotation.y = colladaObject.rotation.y += ( targetRotation - colladaObject.rotation.y ) * 0.05;
 			renderer.render( scene, camera );
 		}
+
+
 
 
 	</script>
