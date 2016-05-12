@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html >
+<head>
+    <meta charset="UTF-8">
+    <title>Three.js inline base64 texture</title>
+        
+    <link rel="stylesheet" href="css/style.css">
+    <script src='http://threejs.org/build/three.min.js'></script>
+	<script type="text/javascript" src="http://code.jquery.com/jquery-1.6.2.js"></script>
+  	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.14/jquery-ui.js"></script>
+	<style type="text/css">
+
+		#canvas {
+    
+		}
+		#background {
+		    display: none;
+		}
+		#ballon {
+		    position: absolute;
+		    top: 50px;
+		    left: 50px;
+		    cursor: move;
+		    opacity: 0.5;
+		}
+
+	</style>
+</head>
+
+<body>
+	<button id="cambiarImagen">Cambiar</button>
+	<div class="clear"></div>
+	<!--div id="contenedorImagen">
+	  <img src="doggie.jpg" alt="" id="textura" />
+	</div-->
+
+	<canvas id="mycanvas" width="480" height="320" onmousemove="myFunction(event)"></canvas>
+	<img src="PWSOy.jpg" id="background" />
+	<img src="6l6v2.png" id="ballon"  />
+	<button id="draw">Draw</button>
+	    
+	<script src="js/index.js"></script>
+
+	
+</body>
+</html>
