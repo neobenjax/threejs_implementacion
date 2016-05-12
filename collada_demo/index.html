@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Page Title</title>
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+	<script src="../js/three.min.js"></script>
+	<script src="../js/TrackballControls.js"></script>
+	<script src="../js/ColladaLoader.js"></script>
+	<style>
+		body { margin: 0; overflow: hidden;}
+		canvas { width: 100%; height: 100% }
+
+		div#renderObjeto {
+		    /*margin: 0 auto;
+		    width: 100%;
+		    max-width: 900px;
+		    height: 300px;*/
+		    width: 768px;
+		    height: 1024px;
+		}
+
+		div#renderObjeto canvas {
+		    width: 100%;
+		    height: 100%;
+		}
+	</style>
+</head>
+<body>
+	<div id="renderObjeto"></div>
+	<script type="text/javascript">
+		var WIDTH = $('#renderObjeto').width(),
+		  	HEIGHT = $('#renderObjeto').height();
+		var VIEW_ANGLE = 65,
+			ASPECT = WIDTH / HEIGHT,
+			NEAR = 0.1,
+			FAR = 20000;
+
+		var targetRotation = 0;
+		var targetRotationOnMouseDown = 0;
+
+		var mouseX = 0;
+		var mouseXOnMouseDown = 0;
+
+		var windowHalfX = window.innerWidth / 2;
+		var windowHalfY = window.innerHeight / 2;
+		var cube, plane,loader;
+		var colladaObject;
+
+		init();
+
+		function init() {
+			container = document.getElementById("renderObjeto");
+
+			//camera = new THREE.PerspectiveCamera( 25, window.innerWidth / window.innerHeight, 1, 10000 );
+			//camera.position.set( -5, -5, 5 );
+			//camera.up.set( 0, 0, 1 );
+
+			camera =
+			  new THREE.PerspectiveCamera(
+			    VIEW_ANGLE,
+			    window.innerWidth / window.innerHeight,
+			    NEAR,
+			    FAR);
+
+			camera.position.z = 100;
+			camera.position.y = 30;
+
+			scene = new THREE.Scene();
+
+
+			// create a point light
+			pointLight =
+			  new THREE.PointLight(0xFFFFFF);
+
+			// set its position
+			pointLight.position.x = 10;
+			pointLight.position.y = 50;
+			pointLight.position.z = 530;
+
+			// add to the scene
+			scene.add(pointLight);
+
+			
+			
+			loader = new THREE.ColladaLoader();
+			loader.load( "../models/white_shirt/shirt.dae", function ( collada ) {
+			
+				collada.scene.traverse( function ( child ) {
+					if ( child instanceof THREE.SkinnedMesh ) {
+						//camera.lookAt( child.position );
+					}
+				} );
+				scene.add( collada.scene );
+				colladaObject = collada.scene;
+				colladaObject.rotation.y = 10;
+			} );
+
+			//console.log(loader);
+
+			
+
+			renderer = new THREE.WebGLRenderer( { antialias: true } );
+			renderer.setClearColor( 0x123456 );
+			renderer.setPixelRatio( window.devicePixelRatio );
+			renderer.setSize( window.innerWidth, window.innerHeight );
+			renderer.sortObjects = false;
+			container.appendChild( renderer.domElement );
+			
+
+
+			document.addEventListener( 'mousedown', onDocumentMouseDown, false );
+			document.addEventListener( 'touchstart', onDocumentTouchStart, false );
+			document.addEventListener( 'touchmove', onDocumentTouchMove, false );
+
+			window.addEventListener( 'resize', onWindowResize, false );
+			animate();
+		}
+		function onWindowResize() {
+			camera.aspect = window.innerWidth / window.innerHeight;
+			camera.updateProjectionMatrix();
+			renderer.setSize( window.innerWidth, window.innerHeight );
+		}
+
+
+		function onDocumentMouseDown( event ) {
+
+			event.preventDefault();
+
+			document.addEventListener( 'mousemove', onDocumentMouseMove, false );
+			document.addEventListener( 'mouseup', onDocumentMouseUp, false );
+			document.addEventListener( 'mouseout', onDocumentMouseOut, false );
+
+			mouseXOnMouseDown = event.clientX - windowHalfX;
+			targetRotationOnMouseDown = targetRotation;
+
+		}
+
+		function onDocumentMouseMove( event ) {
+
+			mouseX = event.clientX - windowHalfX;
+
+			targetRotation = targetRotationOnMouseDown + ( mouseX - mouseXOnMouseDown ) * 0.02;
+
+		}
+
+		function onDocumentMouseUp( event ) {
+
+			document.removeEventListener( 'mousemove', onDocumentMouseMove, false );
+			document.removeEventListener( 'mouseup', onDocumentMouseUp, false );
+			document.removeEventListener( 'mouseout', onDocumentMouseOut, false );
+
+		}
+
+		function onDocumentMouseOut( event ) {
+
+			document.removeEventListener( 'mousemove', onDocumentMouseMove, false );
+			document.removeEventListener( 'mouseup', onDocumentMouseUp, false );
+			document.removeEventListener( 'mouseout', onDocumentMouseOut, false );
+
+		}
+
+		function onDocumentTouchStart( event ) {
+
+			if ( event.touches.length === 1 ) {
+
+				event.preventDefault();
+
+				mouseXOnMouseDown = event.touches[ 0 ].pageX - windowHalfX;
+				targetRotationOnMouseDown = targetRotation;
+
+			}
+
+		}
+
+		function onDocumentTouchMove( event ) {
+
+			if ( event.touches.length === 1 ) {
+
+				event.preventDefault();
+
+				mouseX = event.touches[ 0 ].pageX - windowHalfX;
+				targetRotation = targetRotationOnMouseDown + ( mouseX - mouseXOnMouseDown ) * 0.05;
+
+			}
+
+		}
+
+		function animate() {
+			requestAnimationFrame( animate, renderer.domElement );
+			colladaObject.rotation.y = colladaObject.rotation.y += ( targetRotation - colladaObject.rotation.y ) * 0.05;
+			renderer.render( scene, camera );
+		}
+
+
+	</script>
+</body>
+</html>

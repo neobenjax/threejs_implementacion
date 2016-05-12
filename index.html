@@ -108,7 +108,8 @@
 
 
 				var loader = new THREE.ImageLoader( manager );
-				loader.load( 'textures/UV_Grid_Sm.jpg', function ( image ) {
+				//loader.load( 'textures/UV_Grid_Sm.jpg', function ( image ) {
+				loader.load( 'models/male_soccer_shirt_template/male_tanktop_layers.jpg', function ( image ) {
 				//loader.load( 'models/women_tshirt/cloth_02_m_9.jpg', function ( image ) {
 				//loader.load( 'models/camo_shirt/3473817.jpg', function ( image ) {
 					texture.image = image;
@@ -118,7 +119,7 @@
 				// model
 
 				var loader = new THREE.OBJLoader( manager );
-				loader.load( 'models/women_tshirt/Shirt_1.obj', function ( object ) {
+				loader.load( 'models/male_soccer_shirt_template/male_soccer_shirt.obj', function ( object ) {
 
 					object.traverse( function ( child ) {
 
