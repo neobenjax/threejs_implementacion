@@ -1,0 +1,7 @@
+<package caption="male_tanktop_template" icon="thumbnail.jpg">
+	<description>male tanktop</description>
+	<clothes path="rocker_tanktop.dae" skeleton="male">
+		<clothing_slot type="top" />
+		<material_slot material="tanktop" caption="custom mtl"/>
+	</clothes>
+</package>

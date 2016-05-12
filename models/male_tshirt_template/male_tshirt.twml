@@ -1,0 +1,7 @@
+<package caption="male_tshirt_template" icon="thumbnail.jpg">
+	<description>male tshirt</description>
+	<clothes path="male_tshirt_template.dae" skeleton="male">
+		<clothing_slot type="top" />
+		<material_slot material="m_polo" caption="custom mtl"/>
+	</clothes>
+</package>

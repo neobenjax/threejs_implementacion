@@ -1,0 +1,7 @@
+<package caption="male_vest_template" icon="thumbnail.jpg">
+	<description>male vest</description>
+	<clothes path="vest.dae" skeleton="male">
+		<clothing_slot type="top" />
+		<material_slot material="vest_mt" caption="custom mtl"/>
+	</clothes>
+</package>

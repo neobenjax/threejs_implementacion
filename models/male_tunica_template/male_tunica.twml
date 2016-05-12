@@ -1,0 +1,7 @@
+<package caption="male_tunica_template" icon="thumbnail.jpg">
+	<description>male tunica</description>
+	<clothes path="tunica.dae" skeleton="male">
+		<clothing_slot type="top" />
+		<material_slot material="tunic_mtls" caption="custom mtl"/>
+	</clothes>
+</package>

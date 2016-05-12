@@ -1,0 +1,6 @@
+<package caption="female_tank_top_template" icon="female_tank_top_thumbnail.jpg">
+	<description>female tank top</description>
+	<clothes path="female_tank_top.DAE" skeleton="female">
+		<clothing_slot type="top" />
+	</clothes>
+</package>

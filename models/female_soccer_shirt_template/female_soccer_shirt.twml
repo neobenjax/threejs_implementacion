@@ -1,0 +1,7 @@
+<package caption="Female Soccer Shirt" icon="thumbnail.jpg">
+	<description>female soccer shirt</description>
+	<clothes path="female_soccer_shirt.dae" skeleton="female">
+		<clothing_slot type="top" />
+		<material_slot material="shirt" caption="custom mtl"/>
+	</clothes>
+</package>
