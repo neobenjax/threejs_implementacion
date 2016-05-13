@@ -20,6 +20,18 @@
 		    height: 300px;*/
 		    width: 768px;
 		    height: 1024px;
+		    position: relative;
+		    z-index: 1;
+		}
+
+		ul.offsetControl {
+		    list-style: none;
+		    color: #fff;
+		    padding: 0;
+		}
+
+		ul.offsetControl > li {
+		    display: inline;
 		}
 
 		div#renderObjeto canvas {
@@ -31,6 +43,7 @@
 		    position: absolute;
 		    top: 20px;
 		    left: 20px;
+		    z-index: 2;
 		}
 
 		.texturasContenedor ul.miniTexturas {
@@ -75,15 +88,71 @@
 					<img src="../textures/female_tank_top_layers.jpg" alt="">
 				</a>
 			</li>
-			
+			<li>
+				<a href="../textures/disenho_1.png">
+					<img src="../textures/disenho_1.png" alt="">
+				</a>
+			</li>
+			<li>
+				<a href="../textures/PWSOy.jpg">
+					<img src="../textures/PWSOy.jpg" alt="">
+				</a>
+			</li>
+			<li>
+				<a href="../textures/tshirt_layers.jpg">
+					<img src="../textures/tshirt_layers.jpg" alt="">
+				</a>
+			</li>
 		</ul>
+		<div class="offset">
+			<ul class="offsetControl">
+				<li><input type="number" value="0" step="0.1" id="offsetX"></li>
+				<li><input type="number" value="0" step="0.1" id="offsetY"></li>
+				<li><span id="textureSize"></span></li>
+			</ul>
+			<ul class="offsetControl">
+				<li><input type="number" value="0" step="0.1" id="scaleX"></li>
+				<li><input type="number" value="0" step="0.1" id="scaleY"></li>
+				<li><span id="textureScale"></span></li>
+			</ul>
+		</div>
 	</div>
+
+
 	<div id="renderObjeto"></div>
+
+
 	<script type="text/javascript">
 		$(document).on('click','ul.miniTexturas > li > a',function(event){
 			event.preventDefault();
 			imagenTextura.src = $(this).attr('href');
 		});
+
+		$(document).on('change','#offsetX,#offsetY',function(){
+			valor = $(this).val();
+			if($(this).attr('id')=='offsetX')
+				texture.offset.x = valor;
+			else
+				texture.offset.y = valor;
+		});
+
+		$(document).on('change','#scaleX,#scaleY',function(){
+			valor = $(this).val();
+			if($(this).attr('id')=='scaleX')
+				texture.scale.x = valor / 100;
+			else
+				texture.scale.y = valor / 100;
+		});
+
+		
+
+
+		var CtrlOffsetX = $('#offsetX'),
+			CtrlOffsetY = $('#offsetX'),
+			CtrlScaleX = $('#scaleX'),
+			CtrlScaleY = $('#scaleY');
+
+
 
 		var WIDTH = $('#renderObjeto').width(),
 		  	HEIGHT = $('#renderObjeto').height();
@@ -163,7 +232,6 @@
 					if ( child instanceof THREE.Mesh ) {
 
 						child.material.map = texture;
-						console.log(child.material);
 
 					}
 				} );
@@ -185,9 +253,13 @@
 			
 
 
-			document.addEventListener( 'mousedown', onDocumentMouseDown, false );
+			/*document.addEventListener( 'mousedown', onDocumentMouseDown, false );
 			document.addEventListener( 'touchstart', onDocumentTouchStart, false );
-			document.addEventListener( 'touchmove', onDocumentTouchMove, false );
+			document.addEventListener( 'touchmove', onDocumentTouchMove, false );*/
+
+			$('#renderObjeto').on('mousedown',onDocumentMouseDown);
+			$('#renderObjeto').on('touchstart',onDocumentTouchStart);
+			$('#renderObjeto').on('touchmove',onDocumentTouchMove);
 
 			window.addEventListener( 'resize', onWindowResize, false );
 			
@@ -263,8 +335,15 @@
 		}
 
 		function animate() {
+			$('#textureSize').text(texture.image.width+' , '+texture.image.height);
+			//$('#textureScale').text(texture.scale.x+' , '+texture.scale.x);
+			/*CtrlScaleX.val(texture.scale.x);
+			CtrlScaleY.val(texture.scale.y);*/
+
+
 			requestAnimationFrame( animate, renderer.domElement );
-			colladaObject.rotation.y = colladaObject.rotation.y += ( targetRotation - colladaObject.rotation.y ) * 0.05;
+			if (colladaObject != undefined)
+				colladaObject.rotation.y = colladaObject.rotation.y += ( targetRotation - colladaObject.rotation.y ) * 0.05;
 			renderer.render( scene, camera );
 		}
 
