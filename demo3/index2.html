@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html >
+<head>
+    <meta charset="UTF-8">
+    <title>Three.js inline base64 texture</title>
+        
+    <link rel="stylesheet" href="css/style.css">
+    <script src='http://threejs.org/build/three.min.js'></script>
+	<script type="text/javascript" src="//code.jquery.com/jquery-1.10.2.js"></script>
+  	<script type="text/javascript" src="js/jquery-ui.js"></script>
+  	<script type="text/javascript" src="../js/jquery.ui.touch-punch.min.js"></script>
+  	<link rel="stylesheet" type="text/css" href="css/jquery-ui.css">
+
+	<style type="text/css">
+		.draggable2 { width: 100px }
+		.draggable2 > img, .draggable3 > img { width: 100px }
+  		#droppable { width: 480px; height: 320px; border: 1px solid #000; background: none; }
+  		#droppable .ui-resizable img{width: 100%;}
+  		.ui-widget-content {
+			border: 1px dotted #000;
+			background: none;
+		}
+	</style>
+	<script>
+
+		var d_canvas, context, contenedor;
+		var texture, cube, scene, camera, renderer, geometry;
+
+	   	$(document).ready(function(){
+		
+			// Inicializa variables y objetos draggables y droppables
+			d_canvas = document.getElementById('mycanvas');
+		  	context = d_canvas.getContext('2d');
+		    context.fillStyle = "#9ea7b8";
+            context.fillRect(0,0,480,320);
+		    $contenedor = $('#droppable');
+
+		    $( ".draggable2" ).draggable({ revert: "invalid", helper: "clone" });
+
+		    $( "#disenhos" ).droppable({
+		      accept: ".movible",
+		      activeClass: "ui-state-default",
+		      hoverClass: "ui-state-hover",
+		      drop: function(event, ui) {
+
+	           	if ( $(ui.draggable).hasClass('movible')){
+		           $(ui.draggable).remove()
+	           	}
+	           
+	          }
+		    });
+		 
+		    $( "#droppable" ).droppable({
+		      accept: ".movible, .draggable2",
+		      activeClass: "ui-state-default",
+		      hoverClass: "ui-state-hover",
+		      drop: function(event, ui) {
+
+	           	if ( $(ui.helper).hasClass('draggable2')){
+		            var new_signature = $(ui.helper).clone().removeClass('draggable2').addClass('movible');
+		            new_signature.draggable({ revert: "invalid"}).resizable({aspectRatio: true});
+		            $(this).append(new_signature)
+	           	}
+	           
+	          }
+		    });
+
+
+		    // Inicializa textura y materiales del modelo y renderiza
+
+		    texture = new THREE.Texture(d_canvas);
+			texture.needsUpdate = true;
+
+			texture.repeat.set(1, 1);
+			texture.wrapS = texture.wrapT = THREE.MirroredRepeatWrapping;
+
+			var material = new THREE.MeshLambertMaterial( { color: 0xffffff, map: texture } ); 
+			 
+
+			scene = new THREE.Scene(); 
+			camera = new THREE.PerspectiveCamera( 75, 250/250, 0.1, 1000 ); 
+			renderer = new THREE.WebGLRenderer(); 
+			renderer.setSize( 250, 250 ); 
+			document.body.appendChild( renderer.domElement ); 
+
+			geometry = new THREE.BoxGeometry( 1, 1, 1 ); 
+			cube = new THREE.Mesh( geometry, material ); 
+			scene.add( cube ); 
+
+
+			scene.add(new THREE.HemisphereLight(0xaaaaaa, 0x333333));
+
+			var keyLight = new THREE.PointLight(0xaaaaaa);
+			keyLight.position.x = 15;
+			keyLight.position.y = -10;
+			keyLight.position.z = 35;
+			scene.add(keyLight);
+
+			var rimLight = new THREE.PointLight(0x888888);
+			rimLight.position.x = 100;
+			rimLight.position.y = 100;
+			rimLight.position.z = -50;
+			scene.add(rimLight);
+
+			camera.position.z = 2; 
+			render();
+		});
+
+
+	   	var render = function () { 
+			requestAnimationFrame( render ); 
+			/*cube.rotation.x += 0.01;  */
+			cube.rotation.y += 0.02; 
+			renderer.render(scene, camera); 
+		}; 
+
+	  	function guardar(){
+
+	  		context.clearRect(0, 0, 480, 320);
+	  		context.fillStyle = "#9ea7b8";
+            context.fillRect(0,0,480,320);
+
+			$('#droppable .movible').each(function() {
+			    var $element = $(this);
+
+			    element_x = $element.offset().left - $contenedor.offset().left,
+			    element_y = $element.offset().top - $contenedor.offset().top;
+				width = $element.children('img')[0].width;
+				height = $element.children('img')[0].height;
+
+			    context.drawImage($element.children('img')[0], element_x, element_y, width, height);
+			    texture.needsUpdate = true;
+
+			});
+		}
+
+ 	</script>
+
+</head>
+
+<body>
+	 
+	<div id="disenhos" style="border:1px solid #000">
+		<div  class="draggable2 ui-widget-content">
+	  		<img src="PWSOy.jpg" width="100px"/>
+		</div>
+		<div  class="draggable2 ui-widget-content">
+	  		<img src="6l6v2.png" width="100px"/>
+		</div>
+	</div>
+
+	<div id="droppable" class="ui-widget-header" style="margin-left:300px;">
+	</div>
+
+	<canvas id="mycanvas" width="480" height="320" style="border:1px solid #000; display:none"></canvas>
+	<button onclick="guardar()">Guardar</button>
+
+</body>
