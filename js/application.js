@@ -1,0 +1,297 @@
+	var d_canvas, context, contenedor;
+	var texture, cube, scene, sceneObject, camera,cameraObject, renderer, rendererObject, geometry;
+	var containerObjeto = $("#renderObjeto");
+	var targetRotation = 0;
+	var targetRotationOnMouseDown = 0;
+
+	var mouseX = 0;
+	var mouseXOnMouseDown = 0;
+
+	var windowHalfX = window.innerWidth / 2;
+	var windowHalfY = window.innerHeight / 2;
+	var cube, plane,loader;
+	var colladaObject;
+	var imagenTextura = new Image();
+  	var textureObjeto;
+  	var WIDTH = $('#renderObjeto').width(),
+	  	HEIGHT = $('#renderObjeto').height();
+	var VIEW_ANGLE = 65,
+		ASPECT = WIDTH / HEIGHT,
+		NEAR = 0.1,
+		FAR = 20000;
+
+
+
+   	$(document).ready(function(){
+	
+		// Inicializa variables y objetos draggables y droppables
+		d_canvas = document.getElementById('mycanvas');
+	  	context = d_canvas.getContext('2d');
+	    context.fillStyle = "#9ea7b8";
+        context.fillRect(0,0,480,320);
+	    $contenedor = $('#droppable');
+
+	    
+
+
+	    $( ".draggable2" ).draggable({ revert: "invalid", helper: "clone" });
+
+	    $( "#disenhos" ).droppable({
+	      accept: ".movible",
+	      activeClass: "ui-state-default",
+	      hoverClass: "ui-state-hover",
+	      drop: function(event, ui) {
+
+           	if ( $(ui.draggable).hasClass('movible')){
+	           $(ui.draggable).remove()
+           	}
+           
+          }
+	    });
+	 
+	    $( "#droppable" ).droppable({
+	      accept: ".movible, .draggable2",
+	      activeClass: "ui-state-default",
+	      hoverClass: "ui-state-hover",
+	      drop: function(event, ui) {
+
+           	if ( $(ui.helper).hasClass('draggable2')){
+	            var new_signature = $(ui.helper).clone().removeClass('draggable2').addClass('movible');
+	            new_signature.draggable({ revert: "invalid"}).resizable({aspectRatio: true});
+	            $(this).append(new_signature)
+           	}
+           
+          }
+	    });
+
+	    
+
+	    
+
+	    
+		init();
+	    animate();
+
+
+	});
+
+
+	function init(){
+		var containerObjeto = $("#renderObjeto");
+
+	    // Inicializa textura y materiales del modelo y renderiza
+
+	    texture = new THREE.Texture(d_canvas);
+		texture.needsUpdate = true;
+
+		texture.repeat.set(1, 1);
+		texture.wrapS = texture.wrapT = THREE.MirroredRepeatWrapping;
+
+		var material = new THREE.MeshLambertMaterial( { color: 0xffffff, map: texture } ); 
+		 
+
+		scene = new THREE.Scene(); 
+
+		camera = new THREE.PerspectiveCamera( 75, 250/250, 0.1, 1000 ); 
+
+		renderer = new THREE.WebGLRenderer(); 
+		renderer.setSize( 250, 250 ); 
+
+
+		$('.rightDemo').append(renderer.domElement)
+		//document.body.appendChild( renderer.domElement ); 
+
+		geometry = new THREE.BoxGeometry( 1, 1, 1 ); 
+		cube = new THREE.Mesh( geometry, material ); 
+		scene.add( cube ); 
+
+
+		scene.add(new THREE.HemisphereLight(0xaaaaaa, 0x333333));
+
+		var keyLight = new THREE.PointLight(0xaaaaaa);
+		keyLight.position.x = 15;
+		keyLight.position.y = -10;
+		keyLight.position.z = 35;
+		scene.add(keyLight);
+
+		var rimLight = new THREE.PointLight(0x888888);
+		rimLight.position.x = 100;
+		rimLight.position.y = 100;
+		rimLight.position.z = -50;
+		scene.add(rimLight);
+
+		camera.position.z = 2; 
+
+
+		/*Modelo Escena*/
+		cameraObject =
+		  new THREE.PerspectiveCamera(
+		    VIEW_ANGLE,
+		    window.innerWidth / window.innerHeight,
+		    NEAR,
+		    FAR);
+
+		cameraObject.position.z = 100;
+		cameraObject.position.y = 30;
+
+		scene = new THREE.Scene();
+
+
+		// create a point light
+		pointLight =
+		  new THREE.PointLight(0xFFFFFF);
+
+		// set its position
+		pointLight.position.x = 10;
+		pointLight.position.y = 50;
+		pointLight.position.z = 530;
+
+		// add to the scene
+		scene.add(pointLight);
+
+
+		sceneObject = new THREE.Scene();
+
+
+		// create a point light
+		pointLight =
+		  new THREE.PointLight(0xFFFFFF);
+
+		// set its position
+		pointLight.position.x = 10;
+		pointLight.position.y = 50;
+		pointLight.position.z = 530;
+
+		// add to the scene
+		sceneObject.add(pointLight);
+
+		//Textura
+		texture = new THREE.Texture();
+		texture.image = imagenTextura;
+		imagenTextura.src = "textures/3473817.jpg";
+		imagenTextura.onload = function() {
+			texture.needsUpdate = true;
+		};
+		
+		
+		loader = new THREE.ColladaLoader();
+		loader.load( "models/white_shirt/shirt.dae", function ( collada ) {
+		
+			collada.scene.traverse( function ( child ) {
+				if ( child instanceof THREE.SkinnedMesh ) {
+					//camera.lookAt( child.position );
+				}
+				if ( child instanceof THREE.Mesh ) {
+
+					child.material.map = texture;
+
+				}
+			} );
+			sceneObject.add( collada.scene );
+			colladaObject = collada.scene;
+			colladaObject.rotation.y = 10;
+		} );
+
+
+		rendererObject = new THREE.WebGLRenderer( { antialias: true } );
+		rendererObject.setClearColor( 0x123456 );
+		rendererObject.setPixelRatio( window.devicePixelRatio );
+		rendererObject.setSize( window.innerWidth, window.innerHeight );
+		rendererObject.sortObjects = false;
+		containerObjeto.append(rendererObject.domElement)
+
+
+		$('#renderObjeto').on('mousedown',onDocumentMouseDown);
+		$('#renderObjeto').on('touchstart',onDocumentTouchStart);
+		$('#renderObjeto').on('touchmove',onDocumentTouchMove);
+
+		window.addEventListener( 'resize', onWindowResize, false );
+		//render();
+    }
+
+
+   	/*var render = function () { 
+		requestAnimationFrame( render );
+		cube.rotation.y += 0.02; 
+		renderer.render(scene, camera); 
+	};*/
+
+
+	function animate() {
+		requestAnimationFrame( animate );
+		renderer.render(scene, camera);
+
+		requestAnimationFrame( animate, rendererObject.domElement );
+		if (colladaObject != undefined)
+			colladaObject.rotation.y = colladaObject.rotation.y += ( targetRotation - colladaObject.rotation.y ) * 0.05;
+		rendererObject.render( scene, cameraObject );
+	}
+
+
+	function onWindowResize() {
+		camera.aspect = window.innerWidth / window.innerHeight;
+		camera.updateProjectionMatrix();
+		renderer.setSize( window.innerWidth, window.innerHeight );
+	}
+
+	function onDocumentMouseDown( event ) {
+		event.preventDefault();
+		document.addEventListener( 'mousemove', onDocumentMouseMove, false );
+		document.addEventListener( 'mouseup', onDocumentMouseUp, false );
+		document.addEventListener( 'mouseout', onDocumentMouseOut, false );
+		mouseXOnMouseDown = event.clientX - windowHalfX;
+		targetRotationOnMouseDown = targetRotation;
+	}
+
+	function onDocumentMouseMove( event ) {
+		mouseX = event.clientX - windowHalfX;
+		targetRotation = targetRotationOnMouseDown + ( mouseX - mouseXOnMouseDown ) * 0.02;
+	}
+
+	function onDocumentMouseUp( event ) {
+		document.removeEventListener( 'mousemove', onDocumentMouseMove, false );
+		document.removeEventListener( 'mouseup', onDocumentMouseUp, false );
+		document.removeEventListener( 'mouseout', onDocumentMouseOut, false );
+	}
+
+	function onDocumentMouseOut( event ) {
+		document.removeEventListener( 'mousemove', onDocumentMouseMove, false );
+		document.removeEventListener( 'mouseup', onDocumentMouseUp, false );
+		document.removeEventListener( 'mouseout', onDocumentMouseOut, false );
+	}
+
+	function onDocumentTouchStart( event ) {
+		if ( event.touches.length === 1 ) {
+			event.preventDefault();
+			mouseXOnMouseDown = event.touches[ 0 ].pageX - windowHalfX;
+			targetRotationOnMouseDown = targetRotation;
+		}
+	}
+
+	function onDocumentTouchMove( event ) {
+		if ( event.touches.length === 1 ) {
+			event.preventDefault();
+			mouseX = event.touches[ 0 ].pageX - windowHalfX;
+			targetRotation = targetRotationOnMouseDown + ( mouseX - mouseXOnMouseDown ) * 0.05;
+		}
+	}
+
+  	function guardar(){
+
+  		context.clearRect(0, 0, 480, 320);
+  		context.fillStyle = "#9ea7b8";
+        context.fillRect(0,0,480,320);
+
+		$('#droppable .movible').each(function() {
+		    var $element = $(this);
+
+		    element_x = $element.offset().left - $contenedor.offset().left,
+		    element_y = $element.offset().top - $contenedor.offset().top;
+			width = $element.children('img')[0].width;
+			height = $element.children('img')[0].height;
+
+		    context.drawImage($element.children('img')[0], element_x, element_y, width, height);
+
+		});
+	    texture.needsUpdate = true;
+	}
