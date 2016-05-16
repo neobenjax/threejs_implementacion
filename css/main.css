@@ -54,7 +54,7 @@ div#renderObjeto canvas {
 
 .draggable2 { width: 100px }
 .draggable2 > img { width: 100px }
-#droppable {width: 480px;height: 320px;border: 1px solid #000;background: none;width: 100%;max-width: 480px;}
+#droppable {width: 480px;height: 320px;border: 1px solid #000;background: none;width: 100%;max-width: 512px;height: 512px;}
 #droppable .ui-resizable img{width: 100%;}
 .ui-widget-content {
 	border: 1px dotted #000;

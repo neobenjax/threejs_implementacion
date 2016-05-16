@@ -15,6 +15,7 @@
     var imagenTextura = new Image();
     var textura;
     var renderer_mio;
+    var mesh;
 
     /*var WIDTH = $('#renderObjeto').width(),
         HEIGHT = $('#renderObjeto').height();*/
@@ -27,8 +28,8 @@
             // Inicializa variables y objetos draggables y droppables
             d_canvas = document.getElementById('mycanvas');
             context = d_canvas.getContext('2d');
-            context.fillStyle = "#9ea7b8";
-            context.fillRect(0,0,480,320);
+            context.fillStyle = "#ffffff";
+            context.fillRect(0,0,512,512);
             $contenedor = $('#droppable');
 
             $( ".draggable2" ).draggable({ revert: "invalid", helper: "clone" });
@@ -123,7 +124,7 @@
 
         // set its position
         pointLight.position.x = 10;
-        pointLight.position.y = 50;
+        pointLight.position.y = -50;
         pointLight.position.z = 530;
 
         // add to the scene
@@ -140,7 +141,13 @@
         //Reimplementación para Cambio
 
         textura = new THREE.Texture(d_canvas);
+        //textura.offset.set( 0.001, 0.001 );
+        textura.wrapS = textura.wrapT = THREE.RepeatWrapping;
+        //textura.wrapS = THREE.RepeatWrapping;
+        //textura.wrapT = THREE.RepeatWrapping;
+        textura.repeat.set(0.5,1);
         textura.needsUpdate = true;
+
         
         
         loader = new THREE.ColladaLoader();
@@ -161,9 +168,19 @@
             colladaObject.rotation.y = 10;
         } );
 
-        //console.log(loader);
+        var materialObjeto = new THREE.MeshPhongMaterial( {
+            color: 0x552811,
+            specular: 0x222222,
+            shininess: 25,
+            bumpMap: textura,
+            bumpScale: 12
+        } );
 
-        
+        /*Prueba a cambio con un mesh conteniendo el loader*/
+        loader = new THREE.ColladaLoader();
+        /*
+        loader.load( "models/white_shirt/shirt.dae", function( geometry ) { createScene( geometry, 100, materialObjeto ) } );
+        */
 
         renderer_mio = new THREE.WebGLRenderer( { antialias: true } );
         renderer_mio.setClearColor( 0x123456 );
@@ -197,11 +214,20 @@
 
     }
 
+    function createScene( geometry, scale, material ) {
+        mesh = new THREE.Mesh( geometry, material );
+        mesh.position.y = - 50;
+        mesh.scale.set( scale, scale, scale );
+        mesh.castShadow = true;
+        mesh.receiveShadow = true;
+        scene_mio.add( mesh );
+    }
+
     function guardar(){
 
-        context.clearRect(0, 0, 480, 320);
-        context.fillStyle = "#9ea7b8";
-        context.fillRect(0,0,480,320);
+        context.clearRect(0, 0, 512, 512);
+        context.fillStyle = "#ffffff";
+        context.fillRect(0,0,512,512);
 
         $('#droppable .movible').each(function() {
             var $element = $(this);
