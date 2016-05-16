@@ -11,7 +11,7 @@
 
     var windowHalfX = window.innerWidth / 2;
     var windowHalfY = window.innerHeight / 2;
-    var colladaObject,loader;
+    var colladaObject,loader,loader2;
     var imagenTextura = new Image();
     var textura;
     var renderer_mio;
@@ -176,11 +176,6 @@
             bumpScale: 12
         } );
 
-        /*Prueba a cambio con un mesh conteniendo el loader*/
-        loader = new THREE.ColladaLoader();
-        /*
-        loader.load( "models/white_shirt/shirt.dae", function( geometry ) { createScene( geometry, 100, materialObjeto ) } );
-        */
 
         renderer_mio = new THREE.WebGLRenderer( { antialias: true } );
         renderer_mio.setClearColor( 0x123456 );
@@ -212,15 +207,6 @@
         renderer_mio.render( scene_mio, camera_mio );
         renderer_tuyo.render( scene_tuyo, camera_tuyo );
 
-    }
-
-    function createScene( geometry, scale, material ) {
-        mesh = new THREE.Mesh( geometry, material );
-        mesh.position.y = - 50;
-        mesh.scale.set( scale, scale, scale );
-        mesh.castShadow = true;
-        mesh.receiveShadow = true;
-        scene_mio.add( mesh );
     }
 
     function guardar(){
