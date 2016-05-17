@@ -9,6 +9,8 @@
 	<script type="text/javascript" src="js/jquery-1.10.2.js"></script>
   	<script type="text/javascript" src="js/jquery-ui.js"></script>
   	<script type="text/javascript" src="js/jquery.ui.touch-punch.min.js"></script>
+  	<script type="text/javascript" src="js/jquery.ui.rotatable.min.js"></script>
+	<script type="text/javascript" src="js/html2canvas.js"></script>
   	
   	<link rel="stylesheet" type="text/css" href="css/jquery-ui.css">
   	<link rel="stylesheet" type="text/css" href="css/main.css">
@@ -61,7 +63,9 @@
 		<div class="edicionSumision">
 			<div id="droppable" class="ui-widget-header">
 			</div>
-			<canvas id="mycanvas" width="512" height="512" style="border:1px solid #000;"></canvas>
+			<div id="canvasHere">
+				<canvas id="mycanvas" width="512" height="512" style="border:1px solid #000;"></canvas>
+			</div>
 			<div class="rightDemo">		
 				<button onclick="guardar()" class="previsualizar">Previsualizar</button>
 			</div>

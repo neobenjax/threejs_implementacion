@@ -26,7 +26,24 @@
         NEAR = 0.1,
         FAR = 20000;
 
+    var TO_RADIANS = Math.PI/180; 
+
     $(document).ready(function(){
+
+            var params = {
+                // Callback fired on rotation start.
+                start: function(event, ui) {
+                },
+                // Callback fired during rotation.
+                rotate: function(event, ui) {
+                },
+                // Callback fired on rotation end.
+                stop: function(event, ui) {
+                },
+                // Set the rotation center at (25%, 75%).
+                rotationCenterX: 25.0, 
+                rotationCenterY: 75.0
+            };
             // Inicializa variables y objetos draggables y droppables
             d_canvas = document.getElementById('mycanvas');
             w_canvas = d_canvas.width;
@@ -44,11 +61,9 @@
               activeClass: "ui-state-default",
               hoverClass: "ui-state-hover",
               drop: function(event, ui) {
-
                 if ( $(ui.draggable).hasClass('movible')){
                    $(ui.draggable).remove()
                 }
-               
               }
             });
          
@@ -60,12 +75,14 @@
 
                 if ( $(ui.helper).hasClass('draggable2')){
                     var new_signature = $(ui.helper).clone().removeClass('draggable2').addClass('movible');
-                    new_signature.draggable({ revert: "invalid"}).resizable({aspectRatio: true});
+                    new_signature.draggable({ revert: "invalid"}).resizable({aspectRatio: true}).rotatable(params);
                     $(this).append(new_signature)
                 }
                
               }
             });
+
+
 
 
             init();
@@ -234,6 +251,7 @@
 
     }
 
+
     function guardar(){
 
         context.clearRect(0, 0, w_canvas, h_canvas);
@@ -301,11 +319,13 @@
     $(document).on('click','.color',function(){
 
         $('.color.active').removeClass('active');
+        $(this).addClass('active');
 
+        guardar();
+        /*
         context.clearRect(0, 0, w_canvas, h_canvas);
         context.fillStyle = $(this).data('color');
-        context.fillRect(0,0,w_canvas,h_canvas);
+        context.fillRect(0,0,w_canvas,h_canvas);*/
         $('#droppable').css('background-color',$(this).data('color'));
-        $(this).addClass('active');
 
     })
