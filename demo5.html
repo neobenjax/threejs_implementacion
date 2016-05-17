@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Prueba 3D con Texturas en CANVAS</title>
+
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+
+	<script type="text/javascript" src="js/jquery-1.10.2.js"></script>
+  	<script type="text/javascript" src="js/jquery-ui.js"></script>
+  	<script type="text/javascript" src="js/jquery.ui.touch-punch.min.js"></script>
+  	
+  	<link rel="stylesheet" type="text/css" href="css/jquery-ui.css">
+  	<link rel="stylesheet" type="text/css" href="css/main.css">
+
+
+	<script type="text/javascript" src='js/three.min.js'></script>
+	<script type="text/javascript" src="js/TrackballControls.js"></script>
+	<script type="text/javascript" src="js/ColladaLoader.js"></script>
+	<script src="js/OBJLoader.js"></script>
+
+  	<script type="text/javascript" src="js/application2.js"></script>
+</head>
+<body>
+
+	<div class="contenedorEdicion">
+		<div id="disenhos" style="border:1px solid #000">
+			<div  class="draggable2 ui-widget-content">
+		  		<img src="img/PWSOy.jpg" width="100px"/>
+			</div>
+			<div  class="draggable2 ui-widget-content">
+		  		<img src="img/6l6v2.png" width="100px"/>
+			</div>
+			<div  class="draggable2 ui-widget-content">
+		  		<img src="textures/UV_Grid_Sm.jpg" width="100px"/>
+			</div>
+			<div class="draggable2 ui-widget-content">
+		  		<img src="textures/tshirt_layers.jpg" width="100px"/>
+			</div>
+			<div class="draggable2 ui-widget-content">
+		  		<img src="textures/uvtest.jpg" width="100px"/>
+			</div>
+			<div class="draggable2 ui-widget-content">
+		  		<img src="textures/CAMO-texture.jpg" width="100px"/>
+			</div>
+			<div class="draggable2 ui-widget-content">
+		  		<img src="textures/Soccer_Player_bodi_diffuse.png" width="100px"/>
+			</div>
+		</div>
+		<div class="edicionSumision">
+			<div id="droppable" class="ui-widget-header">
+			</div>
+			<canvas id="mycanvas" width="512" height="512" style="border:1px solid #000;"></canvas>
+			<div class="rightDemo">		
+				<button onclick="guardar()" class="previsualizar">Previsualizar</button>
+			</div>
+		</div>
+	</div>
+	<div class="contenedor3D">
+		<div id="renderObjeto"></div>
+	</div>
+	
+</body>
+</html>
