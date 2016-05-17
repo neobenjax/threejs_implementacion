@@ -238,9 +238,10 @@
         requestAnimationFrame( animate );
 
         cube.rotation.y += 0.02;
-
-        if (colladaObject != undefined)
-                colladaObject.rotation.z = colladaObject.rotation.z += ( targetRotation - colladaObject.rotation.z ) * 0.05;
+        colladaObject.rotation.z += 0.02
+        
+       // if (colladaObject != undefined)
+       //         colladaObject.rotation.z = colladaObject.rotation.z += ( targetRotation - colladaObject.rotation.z ) * 0.05;
 
         
         renderer_mio.render( scene_mio, camera_mio );
