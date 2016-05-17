@@ -56,7 +56,7 @@
 				/*camera = new THREE.PerspectiveCamera( 45, window.innerWidth / window.innerHeight, 1, 2000 );
 				camera.position.z = 250;*/
 
-				camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 1, 10000 );
+				camera = new THREE.PerspectiveCamera( 95, window.innerWidth / window.innerHeight, 1, 10000 );
         		camera.position.z = 200;
 
         		// Controls
@@ -109,7 +109,7 @@
 
 				var loader = new THREE.ImageLoader( manager );
 				//loader.load( 'textures/UV_Grid_Sm.jpg', function ( image ) {
-				loader.load( 'models/male_soccer_shirt_template/male_tanktop_layers.jpg', function ( image ) {
+				loader.load( 'models/priceless/Soccer_Player_bodi_diffuse.png', function ( image ) {
 				//loader.load( 'models/women_tshirt/cloth_02_m_9.jpg', function ( image ) {
 				//loader.load( 'models/camo_shirt/3473817.jpg', function ( image ) {
 					texture.image = image;
@@ -119,7 +119,7 @@
 				// model
 
 				var loader = new THREE.OBJLoader( manager );
-				loader.load( 'models/male_soccer_shirt_template/male_soccer_shirt.obj', function ( object ) {
+				loader.load( 'models/priceless/T_Shirt_2.obj', function ( object ) {
 
 					object.traverse( function ( child ) {
 
@@ -131,7 +131,8 @@
 
 					} );
 
-					object.position.y = - 95;
+					//object.position.y = - 95;
+					object.rotation.x = -95;
 					scene.add( object );
 
 				}, onProgress, onError );

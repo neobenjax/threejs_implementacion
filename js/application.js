@@ -146,6 +146,8 @@
         //textura.wrapS = THREE.RepeatWrapping;
         //textura.wrapT = THREE.RepeatWrapping;
         textura.repeat.set(0.5,1);
+        //textura.repeat.set(0.5,0.5);
+        textura.offset.set(0.5,1);
         textura.needsUpdate = true;
 
         
@@ -166,14 +168,6 @@
             scene_mio.add( collada.scene );
             colladaObject = collada.scene;
             colladaObject.rotation.y = 10;
-        } );
-
-        var materialObjeto = new THREE.MeshPhongMaterial( {
-            color: 0x552811,
-            specular: 0x222222,
-            shininess: 25,
-            bumpMap: textura,
-            bumpScale: 12
         } );
 
 
