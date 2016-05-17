@@ -17,6 +17,8 @@
     var renderer_mio;
     var mesh;
 
+    var w_canvas, h_canvas; 
+
     /*var WIDTH = $('#renderObjeto').width(),
         HEIGHT = $('#renderObjeto').height();*/
     var VIEW_ANGLE = 65,
@@ -27,9 +29,12 @@
     $(document).ready(function(){
             // Inicializa variables y objetos draggables y droppables
             d_canvas = document.getElementById('mycanvas');
+            w_canvas = d_canvas.width;
+            h_canvas = d_canvas.height;
+
             context = d_canvas.getContext('2d');
             context.fillStyle = "#ffffff";
-            context.fillRect(0,0,512,512);
+            context.fillRect(0,0,w_canvas,h_canvas);
             $contenedor = $('#droppable');
 
             $( ".draggable2" ).draggable({ revert: "invalid", helper: "clone" });
@@ -141,10 +146,7 @@
         //Reimplementación para Cambio
 
         textura = new THREE.Texture(d_canvas);
-        //textura.offset.set( 0.001, 0.001 );
         textura.wrapS = textura.wrapT = THREE.RepeatWrapping;
-        //textura.wrapS = THREE.RepeatWrapping;
-        //textura.wrapT = THREE.RepeatWrapping;
         textura.repeat.set(1,1);
         //textura.offset.set( 1, 1 );
         textura.needsUpdate = true;
@@ -187,26 +189,7 @@
 
                 }, onProgress, onError );
 
-        
-        /*
-        loader = new THREE.ColladaLoader();
-        loader.load( "models/white_shirt/shirt.dae", function ( collada ) {
-        
-            collada.scene.traverse( function ( child ) {
-                if ( child instanceof THREE.SkinnedMesh ) {
-                    //camera.lookAt( child.position );
-                }
-                if ( child instanceof THREE.Mesh ) {
 
-                    child.material.map = textura;
-
-                }
-            } );
-            scene_mio.add( collada.scene );
-            colladaObject = collada.scene;
-            colladaObject.rotation.y = 10;
-        } );
-*/
         var materialObjeto = new THREE.MeshPhongMaterial( {
             color: 0x552811,
             specular: 0x222222,
@@ -238,8 +221,10 @@
         requestAnimationFrame( animate );
 
         cube.rotation.y += 0.02;
-        colladaObject.rotation.z += 0.02
-        
+
+        if (colladaObject != undefined)
+            colladaObject.rotation.z += 0.02
+
        // if (colladaObject != undefined)
        //         colladaObject.rotation.z = colladaObject.rotation.z += ( targetRotation - colladaObject.rotation.z ) * 0.05;
 
@@ -251,9 +236,9 @@
 
     function guardar(){
 
-        context.clearRect(0, 0, 512, 512);
-        context.fillStyle = "#ffffff";
-        context.fillRect(0,0,512,512);
+        context.clearRect(0, 0, w_canvas, h_canvas);
+        context.fillStyle = $('.color.active').data('color') || '#ffffff';
+        context.fillRect(0,0,w_canvas,h_canvas);
 
         $('#droppable .movible').each(function() {
             var $element = $(this);
@@ -312,3 +297,15 @@
             targetRotation = targetRotationOnMouseDown + ( mouseX - mouseXOnMouseDown ) * 0.05;
         }
     }
+
+    $(document).on('click','.color',function(){
+
+        $('.color.active').removeClass('active');
+
+        context.clearRect(0, 0, w_canvas, h_canvas);
+        context.fillStyle = $(this).data('color');
+        context.fillRect(0,0,w_canvas,h_canvas);
+        $('#droppable').css('background-color',$(this).data('color'));
+        $(this).addClass('active');
+
+    })
