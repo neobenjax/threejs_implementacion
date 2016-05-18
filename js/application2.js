@@ -19,6 +19,8 @@
 
     var w_canvas, h_canvas; 
 
+    var WIDTH = 768,
+        HEIGHT = 512;
     /*var WIDTH = $('#renderObjeto').width(),
         HEIGHT = $('#renderObjeto').height();*/
     var VIEW_ANGLE = 65,
@@ -93,7 +95,7 @@
     function init() {
 
         /*TEXTURA EN CUBO*/
-        texture = new THREE.Texture(d_canvas);
+        /*texture = new THREE.Texture(d_canvas);
         texture.needsUpdate = true;
         texture.repeat.set(1, 1);
         texture.wrapS = texture.wrapT = THREE.MirroredRepeatWrapping;
@@ -124,7 +126,7 @@
         rimLight.position.y = 100;
         rimLight.position.z = -50;
         scene_tuyo.add(rimLight);
-        camera_tuyo.position.z = 2;
+        camera_tuyo.position.z = 2;*/
         /*TEXTURA EN CUBO*/
 
         container = document.getElementById("renderObjeto");
@@ -132,7 +134,8 @@
         camera_mio =
               new THREE.PerspectiveCamera(
                 VIEW_ANGLE,
-                window.innerWidth / window.innerHeight,
+                // window.innerWidth / window.innerHeight,
+                WIDTH/HEIGHT,
                 NEAR,
                 FAR);
 
@@ -220,7 +223,8 @@
         renderer_mio = new THREE.WebGLRenderer( { antialias: true } );
         renderer_mio.setClearColor( 0x123456 );
         renderer_mio.setPixelRatio( window.devicePixelRatio );
-        renderer_mio.setSize( window.innerWidth, window.innerHeight );
+        //renderer_mio.setSize( window.innerWidth, window.innerHeight );
+        renderer_mio.setSize( WIDTH, HEIGHT );
         renderer_mio.sortObjects = false;
         container.appendChild( renderer_mio.domElement );
 
@@ -238,7 +242,7 @@
 
         requestAnimationFrame( animate );
 
-        cube.rotation.y += 0.02;
+        //cube.rotation.y += 0.02;
 
         if (colladaObject != undefined)
             colladaObject.rotation.z += 0.02
@@ -248,7 +252,7 @@
 
         
         renderer_mio.render( scene_mio, camera_mio );
-        renderer_tuyo.render( scene_tuyo, camera_tuyo );
+        //renderer_tuyo.render( scene_tuyo, camera_tuyo );
 
     }
 
@@ -270,7 +274,7 @@
             context.drawImage($element.children('img')[0], element_x, element_y, width, height);
 
         });
-        texture.needsUpdate = true;
+        //texture.needsUpdate = true;
         textura.needsUpdate = true;
     }
 
