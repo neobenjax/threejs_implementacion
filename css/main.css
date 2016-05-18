@@ -54,8 +54,8 @@ div#renderObjeto canvas {
 
 .draggable2 { width: 100px }
 .draggable2 > img { width: 100px }
-#droppable {width: 480px;height: 320px;border: 1px solid #000;background: none;width: 100%;max-width: 340px;height: 512px;background-image: url(../img/guia.png);background-position: top left;background-size: contain;background-repeat: no-repeat;}
-#droppable .ui-resizable img{width: 100%;}
+#droppable,#droppable_clone {width: 480px;height: 320px;border: 1px solid #000;background: none;width: 100%;max-width: 340px;height: 512px;background-image: url(../img/guia.png);background-position: top left;background-size: contain;background-repeat: no-repeat;position: relative;}
+#droppable .ui-resizable img, #droppable_clone .ui-resizable img{width: 100%;}
 .ui-widget-content {
 	border: 1px dotted #000;
 	background: none;
@@ -105,4 +105,12 @@ button.previsualizar {
     background-size: 100%;
     left: 2px;
     bottom: 2px;
+}
+
+canvas#cubotest {
+    display: none;
+}
+
+div#canvasHere {
+    display: none;
 }

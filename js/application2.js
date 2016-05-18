@@ -40,9 +40,8 @@
                 // Callback fired on rotation end.
                 stop: function(event, ui) {
                 },
-                // Set the rotation center at (25%, 75%).
-                rotationCenterX: 25.0, 
-                rotationCenterY: 75.0
+                rotationCenterX: 50.0, 
+                rotationCenterY: 50.0
             };
             // Inicializa variables y objetos draggables y droppables
             d_canvas = document.getElementById('mycanvas');
@@ -75,7 +74,7 @@
 
                 if ( $(ui.helper).hasClass('draggable2')){
                     var new_signature = $(ui.helper).clone().removeClass('draggable2').addClass('movible');
-                    new_signature.draggable({ revert: "invalid"}).resizable({aspectRatio: true}).rotatable(params);
+                    new_signature.draggable({ revert: "invalid"}).resizable({aspectRatio: true}).rotatable(params).css({'top':'0px','left':'0px'});
                     $(this).append(new_signature)
                 }
                
@@ -103,6 +102,7 @@
         camera_tuyo = new THREE.PerspectiveCamera( 75, 250/250, 0.1, 1000 ); 
         renderer_tuyo = new THREE.WebGLRenderer(); 
         renderer_tuyo.setSize( 250, 250 ); 
+        renderer_tuyo.domElement.id = 'cubotest';
         document.body.appendChild( renderer_tuyo.domElement ); 
 
         geometry = new THREE.BoxGeometry( 1, 1, 1 ); 
