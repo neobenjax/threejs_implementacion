@@ -30,7 +30,7 @@
 
     $(document).ready(function(){
 
-            var params = {
+            /*var params = {
                 // Callback fired on rotation start.
                 start: function(event, ui) {
                 },
@@ -42,7 +42,7 @@
                 },
                 rotationCenterX: 50.0, 
                 rotationCenterY: 50.0
-            };
+            };*/
             // Inicializa variables y objetos draggables y droppables
             d_canvas = document.getElementById('mycanvas');
             w_canvas = d_canvas.width;
@@ -74,7 +74,8 @@
 
                 if ( $(ui.helper).hasClass('draggable2')){
                     var new_signature = $(ui.helper).clone().removeClass('draggable2').addClass('movible');
-                    new_signature.draggable({ revert: "invalid"}).resizable({aspectRatio: true}).rotatable(params).css({'top':'0px','left':'0px'});
+                    //new_signature.draggable({ revert: "invalid"}).resizable({aspectRatio: true}).rotatable(params).css({'top':'0px','left':'0px'});
+                    new_signature.draggable({ revert: "invalid"}).resizable({aspectRatio: true}).css({'top':'0px','left':'0px'});
                     $(this).append(new_signature)
                 }
                
