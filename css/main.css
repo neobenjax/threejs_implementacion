@@ -5,6 +5,8 @@ div#renderObjeto {
     z-index: 1;
     display: block;
     width: 100%;
+    width: 768px;
+    height: 512px;
 }
 
 ul.offsetControl {

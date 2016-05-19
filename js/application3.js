@@ -11,18 +11,18 @@
 
     var windowHalfX = window.innerWidth / 2;
     var windowHalfY = window.innerHeight / 2;
-    var colladaObject,loader,loader2;
+    var objeto3D,loader,loader2;
     var imagenTextura = new Image();
     var textura;
     var renderer_mio;
     var mesh;
+    var pointLight;
 
     var w_canvas, h_canvas; 
 
-    var WIDTH = 768,
-        HEIGHT = 512;
-    /*var WIDTH = $('#renderObjeto').width(),
-        HEIGHT = $('#renderObjeto').height();*/
+    /*var WIDTH = 768,
+        HEIGHT = 512;*/
+    var WIDTH, HEIGHT;
     var VIEW_ANGLE = 65,
         /*ASPECT = WIDTH / HEIGHT,*/
         NEAR = 0.1,
@@ -33,6 +33,9 @@
     var xPos, yPos;
 
     $(document).ready(function(){
+
+            WIDTH = $('#renderObjeto').width();
+            HEIGHT = $('#renderObjeto').height();
 
             /*var params = {
                 // Callback fired on rotation start.
@@ -172,6 +175,8 @@
         pointLight.position.x = 10;
         pointLight.position.y = -50;
         pointLight.position.z = 530;
+        pointLight.castShadow = true;
+        new THREE.CameraHelper( pointLight.shadow.camera );
 
         // add to the scene
         scene_mio.add(pointLight);
@@ -196,14 +201,14 @@
         var manager = new THREE.LoadingManager();
         manager.onProgress = function ( item, loaded, total ) {
 
-            console.log( item, loaded, total );
+            //console.log( item, loaded, total );
 
         };
 
         var onProgress = function ( xhr ) {
                     if ( xhr.lengthComputable ) {
                         var percentComplete = xhr.loaded / xhr.total * 100;
-                        console.log( Math.round(percentComplete, 2) + '% downloaded' );
+                        //console.log( Math.round(percentComplete, 2) + '% downloaded' );
                     }
                 };
 
@@ -223,10 +228,10 @@
                         }
 
                     } );
-
+                    object.castShadow = true;
+                    objeto3D = object;
+                    objeto3D.rotation.x = 30;
                     scene_mio.add( object );
-                    colladaObject = object;
-                    colladaObject.rotation.x = 30;
 
                 }, onProgress, onError );
 
@@ -264,11 +269,11 @@
 
         //cube.rotation.y += 0.02;
 
-        if (colladaObject != undefined)
-            colladaObject.rotation.z += 0.02
+        if (objeto3D != undefined)
+            objeto3D.rotation.z += 0.02
 
-       // if (colladaObject != undefined)
-       //         colladaObject.rotation.z = colladaObject.rotation.z += ( targetRotation - colladaObject.rotation.z ) * 0.05;
+       // if (objeto3D != undefined)
+       //         objeto3D.rotation.z = objeto3D.rotation.z += ( targetRotation - objeto3D.rotation.z ) * 0.05;
 
         
         renderer_mio.render( scene_mio, camera_mio );
@@ -302,7 +307,13 @@
     function onWindowResize() {
         /*camera.aspect = window.innerWidth / window.innerHeight;
         camera.updateProjectionMatrix();
-        renderer.setSize( window.innerWidth, window.innerHeight );*/
+        renderer_mio.setSize( window.innerWidth, window.innerHeight );*/
+        WIDTH = $('#renderObjeto').width();
+        HEIGHT = $('#renderObjeto').height();
+
+        camera_mio.aspect = WIDTH/HEIGHT;
+        camera_mio.updateProjectionMatrix();
+        renderer_mio.setSize( WIDTH, HEIGHT );
     }
     function onDocumentMouseDown( event ) {
         event.preventDefault();
