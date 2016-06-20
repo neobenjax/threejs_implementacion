@@ -152,7 +152,7 @@
 
         
         
-        loader = new THREE.ColladaLoader();
+      /*  loader = new THREE.ColladaLoader();
         loader.load( "models/white_shirt/shirt.dae", function ( collada ) {
         
             collada.scene.traverse( function ( child ) {
@@ -168,7 +168,43 @@
             scene_mio.add( collada.scene );
             colladaObject = collada.scene;
             colladaObject.rotation.y = 10;
-        } );
+        } );*/
+
+         var manager = new THREE.LoadingManager();
+        manager.onProgress = function ( item, loaded, total ) {
+
+            //console.log( item, loaded, total );
+
+        };
+
+        var onProgress = function ( xhr ) {
+                    if ( xhr.lengthComputable ) {
+                        var percentComplete = xhr.loaded / xhr.total * 100;
+                        //console.log( Math.round(percentComplete, 2) + '% downloaded' );
+                    }
+                };
+
+        var onError = function ( xhr ) {
+        };
+
+         var loader = new THREE.OBJLoader( manager );
+        loader.load( 'models/comprada/T_Shirt_2.obj', function ( object ) {
+
+            object.traverse( function ( child ) {
+
+                if ( child instanceof THREE.Mesh ) {
+
+                    child.material.map = textura;
+
+                }
+
+            } );
+            object.castShadow = true;
+            objeto3D = object;
+            objeto3D.rotation.x = 30;
+            scene_mio.add( object );
+
+        }, onProgress, onError );
 
 
         renderer_mio = new THREE.WebGLRenderer( { antialias: true } );
