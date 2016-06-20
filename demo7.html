@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Prueba 3D con Texturas en CANVAS</title>
+
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+
+	<script type="text/javascript" src="js/jquery-1.10.2.js"></script>
+  	<script type="text/javascript" src="js/jquery-ui.js"></script>
+  	<script type="text/javascript" src="js/jquery.ui.touch-punch.min.js"></script>
+  	<script type="text/javascript" src="js/jquery.ui.rotatable.min.js"></script>
+  	
+  	<link rel="stylesheet" type="text/css" href="css/jquery-ui.css">
+  	<link rel="stylesheet" type="text/css" href="css/main.css">
+
+
+	<script type="text/javascript" src='js/three.min.js'></script>
+	<script type="text/javascript" src="js/TrackballControls.js"></script>
+	<script type="text/javascript" src="js/ColladaLoader.js"></script>
+
+
+  	<script type="text/javascript" src="js/application4.js"></script>
+</head>
+<body>
+
+	<div class="contenedorEdicion">
+		<div id="disenhos" style="border:1px solid #000">
+			<div class="draggable2 ui-widget-content">
+		  		<img src="img/d_1.png"/>
+			</div>
+			<div class="draggable2 ui-widget-content">
+		  		<img src="img/d_2.png"/>
+			</div>
+			<div class="draggable2 ui-widget-content">
+		  		<img src="img/d_3.png"/>
+			</div>
+			<div class="draggable2 ui-widget-content">
+		  		<img src="img/d_4.png"/>
+			</div>
+			<div class="draggable2 ui-widget-content">
+		  		<img src="img/d_5.png"/>
+			</div>
+			<div class="draggable2 ui-widget-content">
+		  		<img src="img/d_6.png"/>
+			</div>
+			<div class="draggable2 ui-widget-content">
+		  		<img src="img/d_7.png"/>
+			</div>
+			<div class="draggable2 ui-widget-content">
+		  		<img src="img/d_8.png"/>
+			</div>
+			<div class="draggable2 ui-widget-content">
+		  		<img src="img/cocacola_bottle.png" width="100px"/>
+			</div>
+<!--			<div class="draggable2 ui-widget-content">
+		  		<img src="img/cocacola_red.png" width="100px"/>
+			</div>
+			<div class="draggable2 ui-widget-content">
+		  		<img src="img/hero_pdt_fuzeccedtea.png" width="100px"/>
+			</div> -->
+<!-- 			<div class="draggable2 ui-widget-content">
+		  		<img src="textures/texture_1.png" width="100px"/>
+			</div>
+			<div class="draggable2 ui-widget-content">
+		  		<img src="textures/texture_2.png" width="100px"/>
+			</div>
+			<div class="draggable2 ui-widget-content">
+		  		<img src="textures/texture_3.png" width="100px"/>
+			</div>
+			<div class="draggable2 ui-widget-content">
+		  		<img src="textures/texture_4.png" width="100px"/>
+			</div> -->
+		</div>
+		<div id="colores" style="border:1px solid #000;display:none;"> 
+			<span class="color" data-color="yellow" style="background-color: yellow; "></span>
+			<span class="color" data-color="blue" style="background-color: blue; "></span>
+			<span class="color" data-color="orange" style="background-color: orange; "></span>
+			<span class="color" data-color="green" style="background-color: green; "></span>
+			<span class="color" data-color="gray" style="background-color: gray; "></span>
+			<span class="color" data-color="black" style="background-color: black; "></span>
+			<span class="color" data-color="purple" style="background-color: purple; "></span>
+			<span class="color" data-color="white" style="background-color: white; "></span>
+		</div>
+		<div class="edicionSumision">
+			<div id="droppable" class="ui-widget-header">
+			</div>
+			<div id="canvasHere">
+				<canvas id="mycanvas" width="512" height="512" style="border:1px solid #000;"></canvas>
+			</div>
+			<div class="rightDemo">		
+				<div class="contenedor3D">
+					<div id="renderObjeto"></div>
+				</div>
+			</div>
+		</div>
+		<button onclick="guardar()" class="previsualizar">Previsualizar</button>
+	</div>
+	
+</body>
+</html>
