@@ -162,8 +162,12 @@
                 NEAR,
                 FAR);
 
-        camera_mio.position.z = 100;
-        camera_mio.position.y = 30;
+        /*camera_mio.position.z = 100;
+        camera_mio.position.y = 30;*/
+
+        camera_mio.position.y = 0;
+        camera_mio.position.x = 0;
+        camera_mio.position.z = 0.13;    
 
         scene_mio = new THREE.Scene();
 
@@ -217,7 +221,7 @@
 
 
         loader = new THREE.ColladaLoader();
-        loader.load( "models/white_shirt/shirt.dae", function ( collada ) {
+        loader.load( "models/white_shirt/test3.dae", function ( collada ) {
         
             collada.scene.traverse( function ( child ) {
                 if ( child instanceof THREE.SkinnedMesh ) {
